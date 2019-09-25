@@ -9,6 +9,10 @@ cache:
 before_install:
     - npm i -g npm@6
 
+addons:
+  host:
+  - localhost.paypal.com
+
 script:
     - npm run lint
     - npm run test:unit
