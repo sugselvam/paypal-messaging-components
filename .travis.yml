@@ -10,7 +10,7 @@ before_install:
     - npm i -g npm@6
 
 addons:
-  host:
+  hosts:
     - localhost.paypal.com
 
 script:
