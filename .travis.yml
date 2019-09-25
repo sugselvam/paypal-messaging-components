@@ -11,11 +11,11 @@ before_install:
 
 addons:
   host:
-  - localhost.paypal.com
+    - localhost.paypal.com
 
 script:
     - npm run lint
-    - npm run test:unit
+    - npm run test:unit 
     - npm run test:func
 
 deploy:
