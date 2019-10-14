@@ -1,0 +1,22 @@
+{
+    "plugins": {
+        "view": {
+            "module": "nemo-view"
+        }
+    },
+    "data": {
+        "baseurl": "/tests/Banners.html"
+    },
+    "profiles": {
+        "base": {
+            "tests": "path:functional/spec/nemo/*.js",
+            "driverPerTest": false,
+            "mocha": {
+                "timeout": 120000
+            },
+            "driver": {
+                "browser": "chrome"
+            }
+        }
+    }
+}

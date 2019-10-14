@@ -27,11 +27,13 @@
         "preinstall": "rm -rf node_modules",
         "start": "npm run dev",
         "test:unit": "jest tests/unit/*",
-        "test:func": "jest tests/functional/* --updateSnapshot"
+        "test:func": "jest tests/functional/* --updateSnapshot",
+        "test": "nemo -B tests"
     },
     "dependencies": {
         "@paypal/sdk-client": "^4.0.80",
         "core-js-pure": "^3.0.1",
+        "nemo": "^4.11.0",
         "zalgo-promise": "^1.0.38"
     },
     "devDependencies": {
