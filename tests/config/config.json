@@ -5,7 +5,7 @@
         }
     },
     "data": {
-        "baseurl": "/tests/Banners.html"
+        "baseurl": "/demo/modals/Banners.html"
     },
     "profiles": {
         "base": {
