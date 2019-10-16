@@ -5,7 +5,7 @@
         }
     },
     "data": {
-        "baseurl": "/demo/modals/Banners.html"
+        "baseurl": "http://localhost.paypal.com:8080/modals/Banners.html"
     },
     "profiles": {
         "base": {

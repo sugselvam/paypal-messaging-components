@@ -43,7 +43,9 @@ module.exports = (env = {}) => {
     config.devServer = {
         contentBase: './demo',
         publicPath: '/',
-        openPage: env.standalone ? (env.legacy && 'legacy.html') || 'standalone.html' : '',
+        openPage: env.standalone
+            ? (env.legacy && 'legacy.html') || 'standalone.html'
+            : env.banner && './modals/Banners.html',
         compress: true,
         host: 'localhost.paypal.com',
         port: 8080,

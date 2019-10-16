@@ -28,7 +28,9 @@
         "start": "npm run dev",
         "test:unit": "jest tests/unit/*",
         "test:func": "jest tests/functional/* --updateSnapshot",
-        "test": "nemo -B tests"
+        "test": "nemo -B tests",
+        "build:banner": "webpack --env.banner",
+        "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.mockImadserv --env.banner"
     },
     "dependencies": {
         "@paypal/sdk-client": "^4.0.80",
