@@ -12,5 +12,6 @@ describe('bannertest', () => {
             .maximize();
         await nemo.driver.sleep(5000);
         await homepage.entrypage(nemo).collectiveEntry({});
+        await nemo.driver.sleep(5000);
     });
 });
