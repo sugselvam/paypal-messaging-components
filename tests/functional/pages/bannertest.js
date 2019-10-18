@@ -27,7 +27,7 @@ exports.entrypage = function(nemo) {
         },
         async collectiveEntry() {
             await this.viewezpaybanner();
-            await this.closeezpaybanner();
+            // await this.closeezpaybanner();
             await this.viewNIbanner();
         }
     };
