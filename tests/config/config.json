@@ -2,6 +2,9 @@
     "plugins": {
         "view": {
             "module": "nemo-view"
+        },
+        "window": {
+            "module": "nemo-window"
         }
     },
     "data": {
