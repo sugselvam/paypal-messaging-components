@@ -1,8 +1,7 @@
 const selectors = {
     ezpayopen: "xpath://div[@class= 'message__content']",
     ezpayclose: "xpath:/html/body/section[@class='modal__container show']/div/div/div[1]/div/div/header/button",
-    NIopen: "xpath://div[@class= 'message__content']",
-    textbox: '#number-input'
+    NIopen: "xpath://div[@class= 'message__content']"
 };
 
 exports.entrypage = function(nemo) {
