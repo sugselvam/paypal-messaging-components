@@ -1,6 +1,6 @@
 const selectors = {
-    NIopen: "xpath://div[@class= 'message__content']",
-    NIclose: "xpath:/html/body/section[@data-pp-modal='ni']/div/div/div[1]/div/div/header/button"
+    NIopen: '.message__content',
+    NIclose: '#close-btn'
 };
 
 exports.NIentrypage = function(nemo) {

@@ -1,8 +1,6 @@
 const selectors = {
-    ezpayopen: "xpath://div[@class= 'message__content']",
-    ezpayclose: "xpath:/html/body/section[@data-pp-modal='ezp']/div/div/div[1]/div/div/header/button",
-    ezpaytextbox: "xpath://input[@id ='number-input']",
-    ezpaycalculate: "xpath://button[@id ='calculate-ezp']"
+    ezpayopen: '.message__content',
+    ezpayclose: '#close-btn'
 };
 
 exports.ezpayentrypage = function(nemo) {
