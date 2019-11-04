@@ -3,7 +3,8 @@ const selectors = {
     ezcloseban: '#close-btn',
     iframe: 'xpath://div[contains(@style,"display: block")]//iframe',
     ezpaytextbox: '.calculator__input',
-    ezpaycalculate: '.calculator__btn'
+    ezpaycalculate: '.calculator__btn',
+    ezpaycontainer: 'xpath://section[@id="modal-container"]'
 };
 
 exports.ezpayentrypage = function(nemo) {
@@ -41,7 +42,7 @@ exports.ezpayentrypage = function(nemo) {
             await this.viewezpaybanner();
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
-            const container = await nemo.view._finds('xpath://section[@id="modal-container"]');
+            const container = await nemo.view._finds(selectors.ezpaycontainer);
             await nemo.driver
                 .actions()
                 .mouseMove(container[0], { x: 5, y: 5 })
