@@ -6,8 +6,15 @@ const selectors = {
     ezpaycalculate: '.calculator__btn',
     ezpaycontainer: 'xpath://section[@id="modal-container"]',
     ezpayaccordion: 'xpath://section[@id="ezp-content"]/div[4]/h3',
-    ezpaypromotionaccordion: 'xpath://section[@id="ezp-content"]/div[6]/h3'
+    ezpaypromotionaccordion: 'xpath://section[@id="ezp-content"]/div[6]/h3',
+    ezpaymonthlypayments: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[1]',
+    ezpaypayments: 'xpath://section[@id = "financing-terms"]table/tbody/tr/td[2]',
+    ezpayminimumpurchase: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[2]',
+    ezpaytotalintrest: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[5]'
 };
+const chai = require('chai');
+
+chai.should();
 
 exports.ezpayentrypage = function(nemo) {
     return {
@@ -19,15 +26,31 @@ exports.ezpayentrypage = function(nemo) {
             await nemo.driver.sleep(5000);
             await nemo.driver.switchTo().defaultContent();
         },
-        async calculateamount() {
+        async checkEzpayPage() {
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
+            const minimumpurchaseamount = await nemo.view._find(selectors.ezpayminimumpurchase).getText();
+            return minimumpurchaseamount.should.equal('$30.00');
+        },
+
+        async calculateamount() {
             await nemo.view._waitVisible(selectors.ezpaytextbox);
             await nemo.view._find(selectors.ezpaytextbox).sendKeys(300);
+            await nemo.view._waitVisible(selectors.ezpaycalculate);
             await nemo.view._find(selectors.ezpaycalculate).click();
             await nemo.driver.sleep(5000);
         },
+        async checkmonthlypaymentsafterCalculate() {
+            const monthlypayments = await nemo.view._find(selectors.ezpaymonthlypayments).getText();
+            return monthlypayments.should.equal('$100.00');
+        },
+
+        async checktotalintrestafterCalculate() {
+            const totalintrest = await nemo.view._find(selectors.ezpaytotalintrest).getText();
+            return totalintrest.should.equal('$300.00');
+        },
+
         async clearamount() {
             await nemo.view._find(selectors.ezpaytextbox).clear();
             await nemo.view._find(selectors.ezpaycalculate).click();
@@ -92,7 +115,10 @@ exports.ezpayentrypage = function(nemo) {
         },
         async ezpaycollectiveEntry() {
             await this.viewezpaybanner();
+            await this.checkEzpayPage();
             await this.calculateamount();
+            await this.checkmonthlypaymentsafterCalculate();
+            await this.checktotalintrestafterCalculate();
             await this.clearamount();
             await this.canOpenCloseEzpayAccordion();
             await this.canOpenClosePromotionAccordion();

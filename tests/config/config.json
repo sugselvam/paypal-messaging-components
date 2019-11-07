@@ -15,7 +15,7 @@
             "tests": "path:functional/spec/nemo/*.js",
             "driverPerTest": false,
             "mocha": {
-                "timeout": 120000
+                "timeout": 220000
             },
             "driver": {
                 "browser": "chrome"
