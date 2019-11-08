@@ -10,7 +10,13 @@ const selectors = {
     ezpaymonthlypayments: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[1]',
     ezpaypayments: 'xpath://section[@id = "financing-terms"]table/tbody/tr/td[2]',
     ezpayminimumpurchase: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[2]',
-    ezpaytotalintrest: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[5]'
+    ezpaytotalintrest: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[5]',
+    ezpaytabclick: "xpath://section[@id='tabs']/h3[@id='ni-tab']",
+    nitabclick: "xpath://section[@id='tabs']/h3[@id='ezp-tab']",
+    ezpaytab: '#ezp-tab',
+    nitab: '#ni-tab',
+    ezpContent: '#ezp-content',
+    niContent: '#ni-content'
 };
 const chai = require('chai');
 
@@ -80,6 +86,19 @@ exports.ezpayentrypage = function(nemo) {
                 .perform();
             await nemo.driver.sleep(5000);
         },
+        async canChangeTabs() {
+            const ezpayselected = await nemo.view._find(selectors.ezpaytab).getAttribute('class');
+            if (ezpayselected === 'selected') {
+                await nemo.view._find(selectors.ezpaytabclick).click();
+            }
+            await nemo.driver.sleep(3000);
+            const niselected = await nemo.view._find(selectors.nitab).getAttribute('class');
+            if (niselected === 'selected') {
+                await nemo.view._find(selectors.nitabclick).click();
+            }
+            await nemo.driver.sleep(3000);
+        },
+
         async closesOnEscKey() {
             await nemo.driver
                 .actions()
@@ -122,6 +141,7 @@ exports.ezpayentrypage = function(nemo) {
             await this.clearamount();
             await this.canOpenCloseEzpayAccordion();
             await this.canOpenClosePromotionAccordion();
+            await this.canChangeTabs();
             await this.closesOnEscKey();
             await this.closesOnOverlayClick();
             await this.closeezpaybanner();
