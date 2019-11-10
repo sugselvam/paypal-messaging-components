@@ -28,9 +28,10 @@
         "start": "npm run dev",
         "test:unit": "jest tests/unit/*",
         "test:func": "jest tests/functional/* --updateSnapshot",
-        "test": "nemo -B tests",
+        "test:nemo": "nemo -B tests",
+        "test": "npm run dev:banner& npm run test:nemo",
         "build:banner": "webpack --env.banner",
-        "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.mockImadserv --env.banner"
+        "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.banner"
     },
     "dependencies": {
         "@paypal/sdk-client": "^4.0.80",
@@ -44,6 +45,7 @@
         "@testing-library/jest-dom": "^4.0.0",
         "babel-eslint": "^10.0.1",
         "babel-jest": "^24.8.0",
+        "concurrently": "^5.0.0",
         "eslint": "^5.8.0",
         "eslint-config-airbnb-base": "^13.1.0",
         "eslint-config-prettier": "^4.3.0",
