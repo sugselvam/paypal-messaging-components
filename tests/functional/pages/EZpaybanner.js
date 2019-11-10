@@ -11,12 +11,13 @@ const selectors = {
     ezpaypayments: 'xpath://section[@id = "financing-terms"]table/tbody/tr/td[2]',
     ezpayminimumpurchase: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[2]',
     ezpaytotalintrest: 'xpath://section[@id = "financing-terms"]/table/tbody/tr/td[5]',
-    ezpaytabclick: "xpath://section[@id='tabs']/h3[@id='ni-tab']",
+    ezpaytabclick: 'xpath://section[@id="tabs"]/h3[@id="ni-tab"]',
     nitabclick: "xpath://section[@id='tabs']/h3[@id='ezp-tab']",
     ezpaytab: '#ezp-tab',
     nitab: '#ni-tab',
     ezpContent: '#ezp-content',
-    niContent: '#ni-content'
+    niContent: '#ni-content',
+    ezpdiv: 'xpath://div[@data-pp-id="4"]'
 };
 const chai = require('chai');
 
@@ -25,7 +26,7 @@ chai.should();
 exports.ezpayentrypage = function(nemo) {
     return {
         async viewezpaybanner() {
-            await nemo.driver.sleep(10000);
+            await nemo.driver.sleep(3000);
             await nemo.driver.switchTo().frame(0);
             await nemo.view._waitVisible(selectors.ezpayopen);
             await nemo.view._find(selectors.ezpayopen).click();
@@ -36,13 +37,15 @@ exports.ezpayentrypage = function(nemo) {
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
-            const minimumpurchaseamount = await nemo.view._find(selectors.ezpayminimumpurchase).getText();
-            return minimumpurchaseamount.should.equal('$30.00');
+            const monthlypaymentsbefore = await nemo.view._find(selectors.ezpaymonthlypayments).getText();
+            return monthlypaymentsbefore.should.equal('$10.00');
         },
 
         async calculateamount() {
+            await nemo.driver.sleep(5000);
             await nemo.view._waitVisible(selectors.ezpaytextbox);
-            await nemo.view._find(selectors.ezpaytextbox).sendKeys(300);
+            await nemo.view._find(selectors.ezpaytextbox).clear();
+            await nemo.view._find(selectors.ezpaytextbox).sendKeys(300.0);
             await nemo.view._waitVisible(selectors.ezpaycalculate);
             await nemo.view._find(selectors.ezpaycalculate).click();
             await nemo.driver.sleep(5000);
@@ -97,9 +100,23 @@ exports.ezpayentrypage = function(nemo) {
                 await nemo.view._find(selectors.nitabclick).click();
             }
             await nemo.driver.sleep(3000);
+            await nemo.driver.switchTo().defaultContent();
         },
 
+        async closeezpaybanner() {
+            const iframeElement = await nemo.view._finds(selectors.iframe);
+            await nemo.view._waitVisible(selectors.iframe);
+            await nemo.driver.switchTo().frame(iframeElement[0]);
+            await nemo.view._waitVisible(selectors.ezcloseban);
+            await nemo.view._find(selectors.ezcloseban).click();
+            await nemo.driver.switchTo().defaultContent();
+            await nemo.driver.sleep(5000);
+        },
         async closesOnEscKey() {
+            await this.viewezpaybanner();
+            const iframeElement = await nemo.view._finds(selectors.iframe);
+            await nemo.view._waitVisible(selectors.iframe);
+            await nemo.driver.switchTo().frame(iframeElement[0]);
             await nemo.driver
                 .actions()
                 .sendKeys(nemo.wd.Key.ESCAPE)
@@ -122,16 +139,15 @@ exports.ezpayentrypage = function(nemo) {
             await nemo.driver.sleep(5000);
         },
 
-        async closeezpaybanner() {
-            await this.viewezpaybanner();
-            const iframeElement = await nemo.view._finds(selectors.iframe);
-            await nemo.view._waitVisible(selectors.iframe);
-            await nemo.driver.switchTo().frame(iframeElement[0]);
-            await nemo.view._waitVisible(selectors.ezcloseban);
-            await nemo.view._find(selectors.ezcloseban).click();
-            await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+        async canReopenEzpayBanner() {
+            const ezpaystyle = await nemo.view._find(selectors.ezpdiv).getAttribute('style');
+            const ezpaydisplaystyle = await ezpaystyle.split(';');
+            if (ezpaydisplaystyle[0] === 'display: none') {
+                await this.viewezpaybanner();
+                await this.closeezpaybanner();
+            }
         },
+
         async ezpaycollectiveEntry() {
             await this.viewezpaybanner();
             await this.checkEzpayPage();
@@ -142,9 +158,10 @@ exports.ezpayentrypage = function(nemo) {
             await this.canOpenCloseEzpayAccordion();
             await this.canOpenClosePromotionAccordion();
             await this.canChangeTabs();
+            await this.closeezpaybanner();
             await this.closesOnEscKey();
             await this.closesOnOverlayClick();
-            await this.closeezpaybanner();
+            await this.canReopenEzpayBanner();
         }
     };
 };

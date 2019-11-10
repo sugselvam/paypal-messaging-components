@@ -1,8 +1,7 @@
-const ezpaybanner = require('../../pages/EZpaybannertest');
-const nibanner = require('../../pages/NIbannertest');
+const nibanner = require('../../pages/NIbanner');
 
-describe('bannertest', () => {
-    it('Ezpaybanner', async function() {
+describe('NI bannertest', () => {
+    it('NIbanner', async function() {
         const { nemo } = this;
         await nemo.driver.sleep(5000);
         await nemo.driver.get(nemo.data.baseurl);
@@ -12,7 +11,6 @@ describe('bannertest', () => {
             .window()
             .maximize();
         await nemo.driver.sleep(5000);
-        await ezpaybanner.ezpayentrypage(nemo).ezpaycollectiveEntry({});
         await nibanner.NIentrypage(nemo).NIcollectiveEntry({});
         await nemo.driver.sleep(5000);
     });

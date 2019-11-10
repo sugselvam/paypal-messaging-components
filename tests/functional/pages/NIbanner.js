@@ -4,7 +4,8 @@ const selectors = {
     iframe: 'xpath://div[contains(@style,"display: block")]//iframe',
     NIaccordion: 'xpath://section[@id="ni-content"]/div[2]/h3',
     PayovertimeAccordion: 'xpath://section[@id = "ni-content"]/div[4]/h3',
-    PaypalCreditAccordian: 'xpath://section[@id="ni-content"]/div[6]/h3'
+    PaypalCreditAccordian: 'xpath://section[@id="ni-content"]/div[6]/h3',
+    NIdiv: 'xpath://div[@data-pp-id="3"]'
 };
 
 exports.NIentrypage = function(nemo) {
@@ -55,13 +56,26 @@ exports.NIentrypage = function(nemo) {
                 .mouseMove(NIaccordion3[0], { x: 5, y: 5 })
                 .click()
                 .perform();
+            await nemo.driver.switchTo().defaultContent();
             await nemo.driver.sleep(5000);
         },
         async closeNIbanner() {
+            const iframeElement = await nemo.view._finds(selectors.iframe);
+            await nemo.view._waitVisible(selectors.iframe);
+            await nemo.driver.switchTo().frame(iframeElement[0]);
             await nemo.view._waitVisible(selectors.NIclose);
             await nemo.view._find(selectors.NIclose).click();
             await nemo.driver.switchTo().defaultContent();
             await nemo.driver.sleep(5000);
+        },
+
+        async canReopenNIBanner() {
+            const NIstyle = await nemo.view._find(selectors.NIdiv).getAttribute('style');
+            const NIdisplaystyle = await NIstyle.split(';');
+            if (NIdisplaystyle[0] === 'display: none') {
+                await this.viewNIbanner();
+                await this.closeNIbanner();
+            }
         },
         async NIcollectiveEntry() {
             await this.viewNIbanner();
@@ -69,6 +83,7 @@ exports.NIentrypage = function(nemo) {
             await this.canOpenClosePayovertimeAccordion();
             await this.canOpenClosePaypalCreditAccordion();
             await this.closeNIbanner();
+            await this.canReopenNIBanner();
         }
     };
 };
