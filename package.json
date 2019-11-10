@@ -29,7 +29,7 @@
         "test:unit": "jest tests/unit/*",
         "test:func": "jest tests/functional/* --updateSnapshot",
         "test:nemo": "nemo -B tests",
-        "test": "npm run dev:banner& npm run test:nemo",
+        "test": "npm run dev:banner & npm run test:nemo",
         "build:banner": "webpack --env.banner",
         "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.banner"
     },
