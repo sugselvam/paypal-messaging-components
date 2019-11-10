@@ -15,8 +15,7 @@ addons:
 
 script:
     - npm run lint
-    - npm run dev:banner
-    - npm run test:nemo
+    - npm run test
 
 deploy:
     provider: script
