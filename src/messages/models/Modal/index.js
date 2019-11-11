@@ -10,12 +10,12 @@ import { Logger, ERRORS } from '../../services/logger';
 import createContainer from '../Container';
 import renderTermsTable from './termsTable';
 import { initParent, getModalElements } from './utils';
-import { createState, memoizeOnProps, pipe, pluck } from '../../../utils';
-import { globalState, setGlobalState } from '../../../utils/globalState';
+import { createState, memoizeOnProps, pipe, pluck, nextId } from '../../../utils';
 
 function createModal(options) {
     const wrapper = window.top.document.createElement('div');
-    wrapper.setAttribute('data-pp-id', globalState.nextId);
+    const id = nextId();
+    wrapper.setAttribute('data-pp-id', id);
 
     const [iframe, { insertMarkup }] = createContainer('iframe');
     const [parentOpen, parentClose] = initParent();
@@ -24,12 +24,11 @@ function createModal(options) {
         status: 'CLOSED'
     });
     const logger = Logger.create({
-        id: globalState.nextId,
+        id,
         account: options.account,
         selector: '__internal__',
         type: 'Modal'
     });
-    setGlobalState({ nextId: (globalState.nextId += 1) });
 
     function getModalType() {
         if (stringStartsWith(options.offerType, 'NI')) {
@@ -271,12 +270,7 @@ function createModal(options) {
         });
 
         return getModalMarkup(options, ignoreCache)
-            .then(
-                pipe(
-                    pluck('markup'),
-                    insertMarkup
-                )
-            )
+            .then(pipe(pluck('markup'), insertMarkup))
             .then(() => {
                 setState({
                     elements: getModalElements(iframe, getModalType())

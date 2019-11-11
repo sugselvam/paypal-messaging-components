@@ -1,12 +1,15 @@
 {
     "meta": {
         "offerType": "PALA:SINGLE:EQZ",
-        "impressionUrl": "$impression_tracking_url$",
-        "clickUrl": "$click_tracking_url$&landing_url=https://www.paypal.com/us/webapps/mpp/credit-pala-easy-payments"
+        "impressionUrl": "${impression_tracking_url}",
+        "clickUrl": "${click_tracking_url}&landing_url=https://www.paypal.com/us/webapps/mpp/credit-pala-easy-payments"
     },
     "data": {
         "headline": [
-            [[["Make ${term} payments of", "weak"], "${pymt_mo}/mo at 0% APR"], ["default", "small"]],
+            [
+                [["Make ${term} payments of", "weak"], "${pymt_mo}/mo at 0% APR"],
+                ["default", "small"]
+            ],
             ["Enjoy Easy Payments.", ["legacy-xsmall"]],
             ["Enjoy Easy Payments with No Interest.", ["legacy-small"]],
             ["Enjoy No Interest when you choose PayPal Credit.", ["legacy-small.2"]]

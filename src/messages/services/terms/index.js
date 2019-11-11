@@ -1,10 +1,9 @@
 import stringStartsWith from 'core-js-pure/stable/string/starts-with';
-import { ZalgoPromise } from 'zalgo-promise';
 
-import { memoizeOnProps } from '../../../utils';
+import { memoizeOnProps, getGlobalUrl, request } from '../../../utils';
 
 function assembleUrl({ account, amount }) {
-    const baseUrl = __MESSAGES__.__TERMS_URL__;
+    const baseUrl = getGlobalUrl('TERMS');
     const queries = [
         'json=true',
         stringStartsWith(account, 'client-id') ? `cid=${account.slice(10)}` : `mid=${account}`
@@ -22,24 +21,11 @@ function assembleUrl({ account, amount }) {
 }
 
 function fetcher(options) {
-    return new ZalgoPromise(resolve => {
-        const xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = () => {
-            if (xhttp.readyState === 4) {
-                switch (xhttp.status) {
-                    case 200:
-                        resolve(JSON.parse(xhttp.responseText));
-                        break;
-                    default:
-                        resolve({ error: true });
-                }
-            }
-        };
-
-        xhttp.open('GET', assembleUrl(options), true);
-        xhttp.send();
-    });
+    return request('GET', assembleUrl(options))
+        .then(res => {
+            return JSON.parse(res.data);
+        })
+        .catch(() => ({ error: true }));
 }
 
 export default memoizeOnProps(fetcher, ['account', 'amount']);

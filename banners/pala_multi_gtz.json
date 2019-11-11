@@ -1,13 +1,19 @@
 {
     "meta": {
         "offerType": "PALA:MULTI:GTZ",
-        "impressionUrl": "$impression_tracking_url$",
-        "clickUrl": "$click_tracking_url$&landing_url=https://www.paypal.com/us/webapps/mpp/credit-pala-easy-payments"
+        "impressionUrl": "${impression_tracking_url}",
+        "clickUrl": "${click_tracking_url}&landing_url=https://www.paypal.com/us/webapps/mpp/credit-pala-easy-payments"
     },
     "data": {
         "headline": [
-            [[["As low as", "weak"], "${pymt_mo}/mo"], ["default", "xsmall"]],
-            [[["Pay as low as", "weak"], "${pymt_mo}/mo"], ["small", "medium", "large", "xlarge"]],
+            [
+                [["As low as", "weak"], "${pymt_mo}/mo"],
+                ["default", "xsmall"]
+            ],
+            [
+                [["Pay as low as", "weak"], "${pymt_mo}/mo"],
+                ["small", "medium", "large", "xlarge"]
+            ],
             ["Enjoy Easy Payments.", ["legacy-xsmall"]]
         ],
         "subHeadline": [

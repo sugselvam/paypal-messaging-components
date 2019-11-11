@@ -1,6 +1,6 @@
 {
     "name": "@paypal/messaging-components",
-    "version": "1.1.4",
+    "version": "1.3.2",
     "description": "PayPal messaging library for integrating PayPal Credit messaging on merchant websites",
     "homepage": "https://github.com/paypal/paypal-messaging-components",
     "repository": {
@@ -10,6 +10,7 @@
     "main": "dist/messaging.js",
     "module": "src/index.js",
     "files": [
+        "banners/",
         "src/",
         "dist/",
         "__sdk__.js",
@@ -29,9 +30,10 @@
         "test:unit": "jest tests/unit/*",
         "test:func": "jest tests/functional/* --updateSnapshot",
         "test:nemo": "nemo -B tests",
-        "test": "npm run dev:banner & npm run test:nemo",
+        "test:banner": "npm run dev:banner & npm run test:nemo",
         "build:banner": "webpack --env.banner",
-        "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.banner"
+        "dev:banner": "webpack-dev-server --config webpack.config.dev.js --env.banner",
+        "test": "jest"
     },
     "dependencies": {
         "@paypal/sdk-client": "^4.0.80",
@@ -41,8 +43,11 @@
         "zalgo-promise": "^1.0.38"
     },
     "devDependencies": {
-        "@testing-library/dom": "^5.6.0",
-        "@testing-library/jest-dom": "^4.0.0",
+        "@semantic-release/changelog": "^3.0.4",
+        "@semantic-release/exec": "^3.3.6",
+        "@semantic-release/git": "^7.0.16",
+        "@testing-library/dom": "^6.2.0",
+        "@testing-library/jest-dom": "^4.1.0",
         "babel-eslint": "^10.0.1",
         "babel-jest": "^24.8.0",
         "concurrently": "^5.0.0",
