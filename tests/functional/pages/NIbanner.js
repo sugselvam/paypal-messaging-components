@@ -2,6 +2,7 @@ const selectors = {
     NIopen: '.message__content',
     NIclose: '#close-btn',
     iframe: 'xpath://div[contains(@style,"display: block")]//iframe',
+    NIcontainer: 'xpath://section[@id="modal-container"]',
     NIaccordion: 'xpath://section[@id="ni-content"]/div[2]/h3',
     PayovertimeAccordion: 'xpath://section[@id = "ni-content"]/div[4]/h3',
     PaypalCreditAccordian: 'xpath://section[@id="ni-content"]/div[6]/h3',
@@ -68,7 +69,32 @@ exports.NIentrypage = function(nemo) {
             await nemo.driver.switchTo().defaultContent();
             await nemo.driver.sleep(5000);
         },
-
+        async closesOnEscKey() {
+            await this.viewNIbanner();
+            const iframeElement = await nemo.view._finds(selectors.iframe);
+            await nemo.view._waitVisible(selectors.iframe);
+            await nemo.driver.switchTo().frame(iframeElement[0]);
+            await nemo.driver
+                .actions()
+                .sendKeys(nemo.wd.Key.ESCAPE)
+                .perform();
+            await nemo.driver.switchTo().defaultContent();
+            await nemo.driver.sleep(5000);
+        },
+        async closesOnOverlayClick() {
+            await this.viewNIbanner();
+            const iframeElement = await nemo.view._finds(selectors.iframe);
+            await nemo.view._waitVisible(selectors.iframe);
+            await nemo.driver.switchTo().frame(iframeElement[0]);
+            const container = await nemo.view._finds(selectors.NIcontainer);
+            await nemo.driver
+                .actions()
+                .mouseMove(container[0], { x: 5, y: 5 })
+                .click()
+                .perform();
+            await nemo.driver.switchTo().defaultContent();
+            await nemo.driver.sleep(5000);
+        },
         async canReopenNIBanner() {
             const NIstyle = await nemo.view._find(selectors.NIdiv).getAttribute('style');
             const NIdisplaystyle = await NIstyle.split(';');
@@ -83,6 +109,8 @@ exports.NIentrypage = function(nemo) {
             await this.canOpenClosePayovertimeAccordion();
             await this.canOpenClosePaypalCreditAccordion();
             await this.closeNIbanner();
+            await this.closesOnEscKey();
+            await this.closesOnOverlayClick();
             await this.canReopenNIBanner();
         }
     };
