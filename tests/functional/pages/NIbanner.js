@@ -1,76 +1,78 @@
 const selectors = {
-    NIopen: '.message__content',
-    NIclose: '#close-btn',
+    mainPage: '#container',
+    noInterestOpen: '.message__content',
+    noInterestClose: '#close-btn',
     iframe: 'xpath://div[contains(@style,"display: block")]//iframe',
-    NIcontainer: 'xpath://section[@id="modal-container"]',
-    NIaccordion: 'xpath://section[@id="ni-content"]/div[2]/h3',
-    PayovertimeAccordion: 'xpath://section[@id = "ni-content"]/div[4]/h3',
-    PaypalCreditAccordian: 'xpath://section[@id="ni-content"]/div[6]/h3',
+    noInterestContainer: 'xpath://section[@id="modal-container"]',
+    noInterestAccordion: 'xpath://section[@id="ni-content"]/div[2]/h3',
+    payOvertimeAccordion: 'xpath://section[@id = "ni-content"]/div[4]/h3',
+    paypalCreditAccordian: 'xpath://section[@id="ni-content"]/div[6]/h3',
     NIdiv: 'xpath://div[@data-pp-id="3"]'
 };
 
 exports.NIentrypage = function(nemo) {
     return {
-        async viewNIbanner() {
+        async viewNoInterestBanner() {
+            await nemo.view._waitVisible(selectors.mainPage);
             await nemo.driver.switchTo().frame(1);
-            await nemo.view._waitVisible(selectors.NIopen);
-            await nemo.view._find(selectors.NIopen).click();
+            await nemo.view._waitVisible(selectors.noInterestOpen);
+            await nemo.view._find(selectors.noInterestOpen).click();
             await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
 
-        async canOpenCloseNIAccordion() {
+        async canOpenCloseNoInterestAccordion() {
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
-            await nemo.view._waitVisible(selectors.NIaccordion);
-            await nemo.view._find(selectors.NIaccordion).click();
-            const NIaccordion1 = await nemo.view._finds(selectors.NIaccordion);
-            await nemo.driver.sleep(5000);
+            await nemo.view._waitVisible(selectors.noInterestAccordion);
+            await nemo.view._find(selectors.noInterestAccordion).click();
+            const noInterestAccordion1 = await nemo.view._finds(selectors.noInterestAccordion);
+            await nemo.driver.sleep(2000);
             await nemo.driver
                 .actions()
-                .mouseMove(NIaccordion1[0], { x: 5, y: 5 })
+                .mouseMove(noInterestAccordion1[0], { x: 5, y: 5 })
                 .click()
                 .perform();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
 
-        async canOpenClosePayovertimeAccordion() {
-            await nemo.view._waitVisible(selectors.PayovertimeAccordion);
-            await nemo.view._find(selectors.PayovertimeAccordion).click();
-            const NIaccordion2 = await nemo.view._finds(selectors.PayovertimeAccordion);
-            await nemo.driver.sleep(5000);
+        async canOpenClosepayOvertimeAccordion() {
+            await nemo.view._waitVisible(selectors.payOvertimeAccordion);
+            await nemo.view._find(selectors.payOvertimeAccordion).click();
+            const noInterestAccordion2 = await nemo.view._finds(selectors.payOvertimeAccordion);
+            await nemo.driver.sleep(2000);
             await nemo.driver
                 .actions()
-                .mouseMove(NIaccordion2[0], { x: 5, y: 5 })
+                .mouseMove(noInterestAccordion2[0], { x: 5, y: 5 })
                 .click()
                 .perform();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
         async canOpenClosePaypalCreditAccordion() {
-            await nemo.view._waitVisible(selectors.PaypalCreditAccordian);
-            await nemo.view._find(selectors.PaypalCreditAccordian).click();
-            const NIaccordion3 = await nemo.view._finds(selectors.PaypalCreditAccordian);
-            await nemo.driver.sleep(5000);
+            await nemo.view._waitVisible(selectors.paypalCreditAccordian);
+            await nemo.view._find(selectors.paypalCreditAccordian).click();
+            const noInterestAccordion3 = await nemo.view._finds(selectors.paypalCreditAccordian);
+            await nemo.driver.sleep(2000);
             await nemo.driver
                 .actions()
-                .mouseMove(NIaccordion3[0], { x: 5, y: 5 })
+                .mouseMove(noInterestAccordion3[0], { x: 5, y: 5 })
                 .click()
                 .perform();
             await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
-        async closeNIbanner() {
+        async closeNoInterestBanner() {
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
-            await nemo.view._waitVisible(selectors.NIclose);
-            await nemo.view._find(selectors.NIclose).click();
+            await nemo.view._waitVisible(selectors.noInterestClose);
+            await nemo.view._find(selectors.noInterestClose).click();
             await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
         async closesOnEscKey() {
-            await this.viewNIbanner();
+            await this.viewNoInterestBanner();
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
@@ -79,39 +81,39 @@ exports.NIentrypage = function(nemo) {
                 .sendKeys(nemo.wd.Key.ESCAPE)
                 .perform();
             await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
         async closesOnOverlayClick() {
-            await this.viewNIbanner();
+            await this.viewNoInterestBanner();
             const iframeElement = await nemo.view._finds(selectors.iframe);
             await nemo.view._waitVisible(selectors.iframe);
             await nemo.driver.switchTo().frame(iframeElement[0]);
-            const container = await nemo.view._finds(selectors.NIcontainer);
+            const container = await nemo.view._finds(selectors.noInterestContainer);
             await nemo.driver
                 .actions()
                 .mouseMove(container[0], { x: 5, y: 5 })
                 .click()
                 .perform();
             await nemo.driver.switchTo().defaultContent();
-            await nemo.driver.sleep(5000);
+            await nemo.driver.sleep(2000);
         },
-        async canReopenNIBanner() {
+        async canReopenNoInterestBanner() {
             const NIstyle = await nemo.view._find(selectors.NIdiv).getAttribute('style');
             const NIdisplaystyle = await NIstyle.split(';');
             if (NIdisplaystyle[0] === 'display: none') {
-                await this.viewNIbanner();
-                await this.closeNIbanner();
+                await this.viewNoInterestBanner();
+                await this.closeNoInterestBanner();
             }
         },
         async NIcollectiveEntry() {
-            await this.viewNIbanner();
-            await this.canOpenCloseNIAccordion();
-            await this.canOpenClosePayovertimeAccordion();
+            await this.viewNoInterestBanner();
+            await this.canOpenCloseNoInterestAccordion();
+            await this.canOpenClosepayOvertimeAccordion();
             await this.canOpenClosePaypalCreditAccordion();
-            await this.closeNIbanner();
+            await this.closeNoInterestBanner();
             await this.closesOnEscKey();
             await this.closesOnOverlayClick();
-            await this.canReopenNIBanner();
+            await this.canReopenNoInterestBanner();
         }
     };
 };
